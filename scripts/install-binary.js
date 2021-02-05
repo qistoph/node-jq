@@ -56,11 +56,15 @@ const DOWNLOAD_MAP = {
   },
   linux: {
     def: 'jq-linux32',
-    x64: 'jq-linux64'
+    x64: 'jq-linux64',
+    arm: null // Download source and build
   }
 }
 
-if (platform in DOWNLOAD_MAP) {
+if (platform in DOWNLOAD_MAP && ( // And either:
+  !(arch in DOWNLOAD_MAP[platform]) || // - the architecture is not (use 'def')
+  DOWNLOAD_MAP[platform][arch] != null // - the archtitecture is not null
+)) {
   // download the executable
 
   const filename =
